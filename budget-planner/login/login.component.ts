@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder , ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   registerForm: any;
   activeform : 'login' | 'register' = 'login';
 
-  constructor ( private form : FormBuilder , private router : Router ) {
+  constructor ( private form : FormBuilder , private router : Router  , private snackBar : MatSnackBar ) {
 
   }
 
@@ -43,6 +44,18 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/budget-planner/dashboard'])
     }else {
       this.snackBar.open('Invalid email or password!' , 'Close' , { duration : 3000})
+    }
+  }
+
+  register(){
+    if ( this.registerForm.valid){
+      console.log("Register Info : " , this.registerForm.value )
+      setTimeout( () => {
+        window.location.reload();
+      } , 2000 );
+      this.router.navigate(['/budget-planner/login'])
+    }else{
+      this.snackBar.open("Please fill in all fields correctly ! " , 'Close' , { duration: 3000 })
     }
   }
 }
