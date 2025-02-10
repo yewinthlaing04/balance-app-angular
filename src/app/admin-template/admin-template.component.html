@@ -1,0 +1,58 @@
+<!-- component Toolbar : https://material.angular.io/components/toolbar/overview -->
+<!-- Debut barre de navigation : composant mat-toolbar  : Importer le module MatToolbarModule dans app.module.ts-->
+<mat-toolbar color="primary" >
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="spacer"></span>
+ <button  mat-button routerLink="/admin/home">Accueil</button> <!--bouton : composant mat-toolbar : Importer le module MatButtonModule dans app.module.ts -->
+  <button  mat-button routerLink="/admin/profile">Profile</button>
+  <button *ngIf="authService.roles.includes('ADMIN')" mat-button [matMenuTriggerFor]="importMenu" >
+    <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    Import
+  </button>
+  <mat-menu #importMenu>
+    <button mat-menu-item routerLink="/admin/loadStudents" >Etudiants</button>
+    <button mat-menu-item routerLink="/admin/loadPayments">Paiements</button>
+  </mat-menu>
+  <button mat-button *ngIf="authService.authenticated==true">
+    {{authService.username}}
+  </button>
+  <button (click)="logout()"  mat-raised-button color="accent">Deconnexion</button>
+</mat-toolbar>
+<!-- Fin barre de navigation : composant mat-toolbar -->
+
+<!-- component Sidenav : https://material.angular.io/components/sidenav/overview -->
+<!-- Debut Side Menu -->
+<mat-drawer-container>
+  <mat-drawer #drawer mode="side" position="start" opened="true">
+    <mat-nav-list>
+      <mat-list-item>
+          <button mat-button routerLink="/admin/dashboard">
+            <mat-icon>dashboard</mat-icon>
+            Tableau de bord
+          </button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button routerLink="/admin/students">
+          <mat-icon>dashboard</mat-icon>
+          Etudiants
+        </button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button routerLink="/payments">
+          <mat-icon>dashboard</mat-icon>
+          Paiements
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div style="min-height: 600px">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+
+</mat-drawer-container>
+
+<!-- Fin Debut Side Menu -->
